@@ -5,7 +5,7 @@
 
 using Ipv6DdnsWin;
 Console.WriteLine("Hello, World!");
-AlibabaCloudSDK.RunShell();
+AlibabaCloudSDK.Execute();
 
 // 命令行发布，当前目录为 Ipv6DdnsWin\Ipv6DdnsWin
 // dotnet publish --self-contained -c Release -o .\bin\release\net7.0\publish\win-x64 -r win10-x64 -p:PublishSingleFile=false -p:PublishReadyToRun=false -p:PublishTrimmed=false
