@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "Ipv6DdnsWin": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ALIBABA_CLOUD_ACCESS_KEY_ID": "LTAI5tCdk3qtnz88oSNtAh5j",
+        "ALIBABA_CLOUD_ACCESS_KEY_SECRET": "nRFi9wky7VFpNwYOr9SblflSv6FmRG"
+      }
+    }
+  }
+}
