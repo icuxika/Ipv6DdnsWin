@@ -3,7 +3,14 @@
 ## 环境
 .NET 7.0 
 
-## 运行要求
+## 环境变量
+在系统中添加`ALIBABA_CLOUD_ACCESS_KEY_ID`与`ALIBABA_CLOUD_ACCESS_KEY_SECRET`两个环境变量用来访问阿里云，可以以`管理员模式`在`PowerShell`中执行以下命令来在命令行添加环境变量
+```
+[System.Environment]::SetEnvironmentVariable('ALIBABA_CLOUD_ACCESS_KEY_ID','','Machine')
+[System.Environment]::SetEnvironmentVariable('ALIBABA_CLOUD_ACCESS_KEY_SECRET','','Machine')
+```
+
+## 运行所需脚本
 在用户目录下创建文件`getipv6.ps1`，示例内容如下
 ```
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
