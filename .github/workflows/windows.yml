@@ -1,0 +1,52 @@
+name: Build installer for Windows
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-app:
+    strategy:
+      matrix:
+        os: [ windows-2019 ]
+    name: Build the application
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '7.0.304'
+
+      - run: $Env:Path += ";C:\Program Files (x86)\WiX Toolset v3.11\bin"
+
+      - name: dotnet restore
+        run: dotnet restore .\Ipv6DdnsWin\Ipv6DdnsWin.csproj
+        shell: pwsh
+
+      - name: dotnet publish
+        run: dotnet publish .\Ipv6DdnsWin\Ipv6DdnsWin.csproj -c Release -o .\Ipv6DdnsWin\bin\Release\net7.0\publish\win-x64 -r win10-x64 --sc -p:PublishSingleFile=false -p:PublishReadyToRun=false -p:PublishTrimmed=false
+        shell: pwsh
+      
+      - name: zip
+        run: Compress-Archive .\Ipv6DdnsWin\bin\Release\net7.0\publish\win-x64\* .\Ipv6DdnsWin\bin\Release\net7.0\publish\win-x64.zip
+        shell: pwsh
+
+      - name: copy
+        run: New-Item -Name "staging" -ItemType "directory"; Copy-Item ".\Ipv6DdnsWin\bin\Release\net7.0\publish\win-x64.zip" -Destination "staging"
+        shell: pwsh
+
+      - name: get current time
+        uses: 1466587594/get-current-time@v2
+        id: current-time
+        with:
+          format: YYYYMMDD-HH
+          utcOffset: "+08:00"
+
+      - name: upload build result
+        uses: actions/upload-artifact@v2
+        with:
+          name: JavaFXSample-${{ steps.current-time.outputs.formattedTime }}-${{ matrix.os }}
+          path: staging

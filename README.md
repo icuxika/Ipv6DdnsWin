@@ -25,8 +25,15 @@
 ```
 cd .\Ipv6DdnsWin\
 ```
-> 从解决方案根目录进入项目目录下，当前路径为`C:\Users\icuxika\source\repos\Ipv6DdnsWin\Ipv6DdnsWin`
+> 从解决方案根目录进入项目目录下
 ```
-dotnet publish --self-contained -c Release -o .\bin\release\net7.0\publish\win-x64 -r win10-x64 -p:PublishSingleFile=false -p:PublishReadyToRun=false -p:PublishTrimmed=false
+dotnet publish -c Release -o .\bin\Release\net7.0\publish\win-x64 -r win10-x64 --sc -p:PublishSingleFile=false -p:PublishReadyToRun=false -p:PublishTrimmed=false
 ```
 > 通过 Visual Studio 提供的图形界面工具发布时，需要手动修改`FolderProfile.pubxml`中`<RuntimeIdentifier>`的值为`win10-x64`，否则可能会遇到`Microsoft.Management.Infrastructure.dll`的错误
+
+## 命令行构建（位于解决方案根目录下，与上面的发布命令所基于的路径不同）
+```
+dotnet restore .\Ipv6DdnsWin\Ipv6DdnsWin.csproj
+dotnet publish .\Ipv6DdnsWin\Ipv6DdnsWin.csproj -c Release -o .\Ipv6DdnsWin\bin\Release\net7.0\publish\win-x64 -r win10-x64 --sc -p:PublishSingleFile=false -p:PublishReadyToRun=false -p:PublishTrimmed=false
+Compress-Archive .\Ipv6DdnsWin\bin\Release\net7.0\publish\win-x64\* .\Ipv6DdnsWin\bin\Release\net7.0\publish\win-x64.zip
+```
