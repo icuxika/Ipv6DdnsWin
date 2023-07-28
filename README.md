@@ -13,7 +13,6 @@
 ## 运行所需脚本
 在用户目录下创建文件`getipv6.ps1`，示例内容如下
 ```
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 @(Get-NetIPInterface -AddressFamily IPv6 | Where-Object InterfaceAlias -CLike "*WSL2_External*" | Select-Object -ExpandProperty ifIndex) | ForEach-Object { Get-NetIPAddress -AddressFamily IPv6 -SuffixOrigin Random -InterfaceIndex $_ } | Where-Object IPAddress -CNotLike "fe80*" | Select-Object -ExpandProperty IPAddress
 ```
 此脚本输出结果为本机的`临时 IPv6 地址`

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Tea;
 using System.Management.Automation;
 using System.Collections.ObjectModel;
+using System.Management.Automation.Runspaces;
 
 namespace Ipv6DdnsWin
 {
@@ -73,7 +74,9 @@ namespace Ipv6DdnsWin
             Console.WriteLine(script);
             Console.WriteLine("--------------------------------");
 
-            using (PowerShell powershell = PowerShell.Create())
+            var iss = InitialSessionState.CreateDefault();
+            iss.ExecutionPolicy = Microsoft.PowerShell.ExecutionPolicy.Bypass;
+            using (PowerShell powershell = PowerShell.Create(iss))
             {
                 powershell.AddScript(Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile), "getipv6.ps1"));
 
