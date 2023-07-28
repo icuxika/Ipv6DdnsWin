@@ -1,7 +1,8 @@
 {
   "profiles": {
     "Ipv6DdnsWin": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "commandLineArgs": "--domainName=icuxika.com"
     }
   }
 }

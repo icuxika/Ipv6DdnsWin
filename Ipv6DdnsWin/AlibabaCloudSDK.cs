@@ -27,20 +27,29 @@ namespace Ipv6DdnsWin
             return new AlibabaCloud.SDK.Alidns20150109.Client(config);
         }
 
-        public static void Execute()
+        public static void Execute(string domainName)
         {
             // 请确保代码运行环境设置了环境变量 ALIBABA_CLOUD_ACCESS_KEY_ID 和 ALIBABA_CLOUD_ACCESS_KEY_SECRET。
             // 工程代码泄露可能会导致 AccessKey 泄露，并威胁账号下所有资源的安全性。以下代码示例使用环境变量获取 AccessKey 的方式进行调用，仅供参考，建议使用更安全的 STS 方式，更多鉴权访问方式请参见：https://help.aliyun.com/document_detail/378671.html
             AlibabaCloud.SDK.Alidns20150109.Client client = CreateClient(Environment.GetEnvironmentVariable("ALIBABA_CLOUD_ACCESS_KEY_ID"), Environment.GetEnvironmentVariable("ALIBABA_CLOUD_ACCESS_KEY_SECRET"));
-            DescribeDomainRecordsResponseBody.DescribeDomainRecordsResponseBodyDomainRecords.DescribeDomainRecordsResponseBodyDomainRecordsRecord record = GetRecord(client);
+            DescribeDomainRecordsResponseBody.DescribeDomainRecordsResponseBodyDomainRecords.DescribeDomainRecordsResponseBodyDomainRecordsRecord record = GetRecord(client, domainName);
             string newIp = RunShell();
-            UpdateRecord(client, record, newIp);
+            if (newIp.Equals(record.Value))
+            {
+                Console.WriteLine($"阿里云存储的IPv6地址：{record.Value}");
+                Console.WriteLine($"本机IPv6地址：{newIp}");
+                Console.WriteLine("IPv6地址未发生改变，不进行更新");
+            }
+            else
+            {
+                UpdateRecord(client, record, newIp);
+            }
         }
 
-        public static DescribeDomainRecordsResponseBody.DescribeDomainRecordsResponseBodyDomainRecords.DescribeDomainRecordsResponseBodyDomainRecordsRecord GetRecord(AlibabaCloud.SDK.Alidns20150109.Client client)
+        public static DescribeDomainRecordsResponseBody.DescribeDomainRecordsResponseBodyDomainRecords.DescribeDomainRecordsResponseBodyDomainRecordsRecord GetRecord(AlibabaCloud.SDK.Alidns20150109.Client client, string domainName)
         {
             DescribeDomainRecordsRequest request = new DescribeDomainRecordsRequest();
-            request.DomainName = "icuxika.com";
+            request.DomainName = domainName;
             request.Type = "AAAA";
             DescribeDomainRecordsResponse response = client.DescribeDomainRecords(request);
             List<DescribeDomainRecordsResponseBody.DescribeDomainRecordsResponseBodyDomainRecords.DescribeDomainRecordsResponseBodyDomainRecordsRecord> records = response.Body.DomainRecords.Record;

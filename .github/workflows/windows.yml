@@ -1,4 +1,4 @@
-name: Build installer for Windows
+name: Build an application for Windows
 on:
   push:
     branches:
@@ -48,5 +48,5 @@ jobs:
       - name: upload build result
         uses: actions/upload-artifact@v2
         with:
-          name: JavaFXSample-${{ steps.current-time.outputs.formattedTime }}-${{ matrix.os }}
+          name: Ipv6DdnsWin-${{ steps.current-time.outputs.formattedTime }}-${{ matrix.os }}
           path: staging
