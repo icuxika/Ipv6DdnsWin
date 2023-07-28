@@ -16,6 +16,16 @@
 @(Get-NetIPInterface -AddressFamily IPv6 | Where-Object InterfaceAlias -CLike "*WSL2_External*" | Select-Object -ExpandProperty ifIndex) | ForEach-Object { Get-NetIPAddress -AddressFamily IPv6 -SuffixOrigin Random -InterfaceIndex $_ } | Where-Object IPAddress -CNotLike "fe80*" | Select-Object -ExpandProperty IPAddress
 ```
 此脚本输出结果为本机的`临时 IPv6 地址`
+```
+❯ pwd
+
+Path
+----
+C:\Users\icuxika
+
+❯ .\getipv6.ps1
+240e:3a1:86a:a3f0:ac3b:f9d1:5974:6680
+```
 
 ## 包（通过`工具-NuGet 包管理器-管理解决方案的 NuGet 程序包`）
 - `AlibabaCloud.SDK.Alidns20150109` 3.0.7
