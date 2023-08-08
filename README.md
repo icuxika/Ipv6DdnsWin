@@ -30,6 +30,8 @@ C:\Users\icuxika
 ## 包（通过`工具-NuGet 包管理器-管理解决方案的 NuGet 程序包`）
 - `AlibabaCloud.SDK.Alidns20150109` 3.0.7
 - `Microsoft.PowerShell.SDK` 7.3.6
+- `Microsoft.Extensions.Configuration.CommandLine` 7.0.0
+- `Microsoft.Windows.CsWin32` 0.3.18-beta
 
 ## 发布
 ```
